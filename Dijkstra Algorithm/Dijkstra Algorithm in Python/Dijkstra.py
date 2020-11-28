@@ -22,3 +22,29 @@ class Node:
         selfPriority = self.minDist
         otherPriority = self.minDist
         return selfPriority < otherPriority
+
+class Dijkstra:
+    def CalculateShortestPath(self, vertexList, start):
+        q=[]
+        start.minDist = 0
+        heapq.heappush(q, start)
+
+        while len(q)>0:
+            node = heapq.heappop(q)
+            for edge in node.adjacent:
+                u = edge.start
+                v = edge.target
+                newDist = u.minDist + edge.weight
+
+                if newDist < v.minDist:
+                    v.predecessor = u
+                    v.minDist = newDist
+                    heapq.heappush(q,v)
+
+    def GetShortestPath(self, target):
+        print("shortest path to vertex is", target.minDist)
+        node = target
+        while node is not None:
+            print(node.name)
+            node = node.predecessor
+
